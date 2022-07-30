@@ -1,0 +1,59 @@
+<!--
+ * @Author: error: git config user.name && git config user.email & please set dead value or install git
+ * @Date: 2022-07-25 16:31:59
+ * @LastEditors: error: git config user.name && git config user.email & please set dead value or install git
+ * @LastEditTime: 2022-07-28 14:09:58
+ * @FilePath: /New_Edu_FrontEnd_Web/Users/dongjiezhou/Documents/codeing/mywork/turntable/index.html
+ * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
+-->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      .box {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        /* transform: translate(-50%, -50%) scaleX(1.5) rotateZ(50deg); */
+        /* transform: rotateZ(0); */
+        width: 200px;
+        height: 200px;
+        /* border-radius: 200px; */
+        background: wheat;
+      }
+    </style>
+  </head>
+  <body>
+    <div style="padding: 20px">
+      <div class="box">1</div>
+    </div>
+    <!-- <script src="./Gesture.js"></script> -->
+    <script src="./dist/TurntableGesture.umd.js"></script>
+    <!-- <script src="./dist/TurntableGesture.iife.js"></script> -->
+    <script>
+      
+
+      const box = document.querySelector('.box')
+
+      const gesture = new TurntableGesture('.box', {
+        // sensitivity: 10,
+        // direction: 'clockwise'
+        initialAngle: 45,
+        direction: 'all'
+      })
+
+      // gesture.on('end', (deg) => {
+      //   console.log(deg)
+      // })
+
+      // gesture.on('move', (deg) => {
+      //   console.log(deg)
+      // })
+
+    </script>
+  </body>
+</html>
