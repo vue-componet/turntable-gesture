@@ -2,7 +2,7 @@
   "name": "turntable-gesture",
   "version": "1.0.0",
   "description": "转盘旋转手势插件",
-  "homepage": "",
+  "homepage": "https://github.com/vue-componet/turntable-gesture",
   "main": "dist/TurntableGesture.cjs.js",
   "module": "dist/TurntableGesture.esm.js",
   "scripts": {
@@ -11,7 +11,7 @@
     "lint": "eslint --fix",
     "prettier": "prettier --write ."
   },
-  "author": "",
+  "author": "dongdongjie",
   "license": "ISC",
   "devDependencies": {
     "@babel/core": "^7.18.9",
@@ -28,7 +28,5 @@
     "rollup-plugin-filesize": "^9.1.2",
     "rollup-plugin-terser": "^7.0.2"
   },
-  "dependencies": {
-    "lodash": "^4.17.21"
-  }
+  "dependencies": {}
 }
