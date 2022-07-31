@@ -38,12 +38,14 @@ gesture.on('move', (angle) => {
 ## 参数选项 options
 
 | 属性名 | 类型 | 默认值 | 可选值| 说明 |
-|--------|-----|--------|-------|----------|-----|
-| direction | string | all | all/clockwise/anti-clockwise | 允许转动方向 |
+|--------|-----|--------|-------|-----|
+| direction | string | all | all/clockwise/anti-clockwise| 允许转动方向 |
 | initialAngle | number | 0 | - | 初始已旋转角度 |
 | sensitivity | number | 1 | - | 转动灵敏度，数值越小越灵敏 |
 
 ## 回调函数
+
 | 回调名 | 说明 | 返回参数 |
+|----|----|--------|
 | end | 转动结束回调 | angle,旋转的角度 |
 | move | 转动过程回调 | angle,旋转的角度 |
