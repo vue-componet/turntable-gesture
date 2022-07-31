@@ -1,7 +1,8 @@
 {
   "name": "turntable-gesture",
   "version": "1.0.0",
-  "description": "",
+  "description": "转盘旋转手势插件",
+  "homepage": "",
   "main": "dist/TurntableGesture.cjs.js",
   "module": "dist/TurntableGesture.esm.js",
   "scripts": {
