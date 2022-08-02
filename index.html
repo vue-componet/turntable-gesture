@@ -31,6 +31,8 @@
     <div style="padding: 20px">
       <div class="box">1</div>
     </div>
+
+    <button id="destroy">销毁</button>
     <!-- <script src="./Gesture.js"></script> -->
     <script src="./dist/TurntableGesture.umd.js"></script>
     <!-- <script src="./dist/TurntableGesture.iife.js"></script> -->
@@ -40,19 +42,25 @@
       const box = document.querySelector('.box')
 
       const gesture = new TurntableGesture('.box', {
-        sensitivity: 10,
+        // sensitivity: 10,
         // direction: 'clockwise'
         initialAngle: 45,
         direction: 'all'
       })
 
-      // gesture.on('end', (deg) => {
-      //   console.log(deg)
-      // })
+      gesture.on('end', (deg) => {
+        console.log(deg)
+      })
+
+      // gesture.off('end')
 
       // gesture.on('move', (deg) => {
       //   console.log(deg)
       // })
+      document.querySelector('#destroy').addEventListener('click', () => {
+        console.log('dddddd')
+        gesture.destroy()
+      })
 
     </script>
   </body>

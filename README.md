@@ -33,6 +33,11 @@ gesture.on('end', (angle) => {
 gesture.on('move', (angle) => {
   console.log(angle)
 })
+
+
+// 注销回调事件
+gesture.off('end')
+gesture.off('move')
 ```
 
 ## 参数选项 options
@@ -49,3 +54,8 @@ gesture.on('move', (angle) => {
 |----|----|--------|
 | end | 转动结束回调 | angle,旋转的角度 |
 | move | 转动过程回调 | angle,旋转的角度 |
+
+## 实例方法
+| 回调名 | 说明 | 返回参数 |
+|----|----|--------|
+| destroy | 销毁 | - |

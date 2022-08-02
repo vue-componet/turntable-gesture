@@ -35,6 +35,11 @@ export default class TurntableGesture {
     this.moveHandler = ['mousemove', 'touchmove']
     this.startHandler = ['mousedown', 'touchstart']
     this.endHandler = ['mouseup', 'touchend']
+
+    this.handleStart = this.start.bind(this)
+    this.handleMove = this.move()
+    this.handleEnd = this.end.bind(this)
+
     this.isMobile = isMobile() // 是否是移动端
     this.getTransformMatrix() // 获取dom的默认transform属性矩阵信息
   }
@@ -48,7 +53,23 @@ export default class TurntableGesture {
       let rotateMatrix = this.cTransformMatrix(this.transformMatrix, matrix)
       this.rotate(rotateMatrix, initialAngle)
     }
-    
+  }
+
+  emptyData() {
+    this.$element = null
+    this.onListener = null
+    this.angle = null
+    this.startTag = null
+    this.moveHandler = null
+    this.startHandler = null
+    this.endHandler = null
+
+    this.handleStart = null
+    this.handleMove = null
+    this.handleEnd = null
+    this.isMobile = null
+
+    this.options = null
   }
 
   // 设置中心点
@@ -176,63 +197,97 @@ export default class TurntableGesture {
   addEventListener() {
 
     this.startHandler.forEach((handlerName) => {
-      this.$element.addEventListener(handlerName, (e) => {
-        this.startTag = true
-        const bound = this.$element.getBoundingClientRect()
-        this.setCenterPoint(
-          bound.left + bound.width / 2,
-          bound.top + bound.height / 2
-        )
-        if (this.isMobile) {
-          this.setFristPoint(e.touches[0].clientX, e.touches[0].clientY)
-        } else {
-          this.setFristPoint(e.clientX, e.clientY)
-        }
-      })
+      this.$element.addEventListener(handlerName, this.handleStart)
     })
 
     this.moveHandler.forEach((handlerName) => {
       this.$element.addEventListener(
         handlerName,
-        throttle((e) => {
-          e.preventDefault()
-
-          if (this.startTag) {
-            if (this.isMobile) {
-              this.setLastPoint(e.touches[0].clientX, e.touches[0].clientY)
-            } else {
-              this.setLastPoint(e.clientX, e.clientY)
-            }
-
-            const { matrix: rotateMatrix, angle } = this.cRotateMatrix()
-
-            this.rotate(rotateMatrix, angle)
-
-            // 回调事件
-            this.onListener['move'] && this.onListener['move'](this.angle)
-
-            if (this.isMobile) {
-              this.setFristPoint(e.touches[0].clientX, e.touches[0].clientY)
-            } else {
-              this.setFristPoint(e.clientX, e.clientY)
-            }
-          }
-        }, 20),
+        this.handleMove,
         { passive: false }
       )
     })
 
     this.endHandler.forEach((handlerName) => {
-      this.$element.addEventListener(handlerName, () => {
-        this.startTag = false
-        this.onListener['end'] && this.onListener['end'](this.angle)
-      })
+      this.$element.addEventListener(handlerName, this.handleEnd)
     })
+  }
+
+  start(e) {
+    this.startTag = true
+    console.log(this)
+    const bound = this.$element.getBoundingClientRect()
+    this.setCenterPoint(
+      bound.left + bound.width / 2,
+      bound.top + bound.height / 2
+    )
+    if (this.isMobile) {
+      this.setFristPoint(e.touches[0].clientX, e.touches[0].clientY)
+    } else {
+      this.setFristPoint(e.clientX, e.clientY)
+    }
+  }
+
+  move() {
+    return throttle((e) => {
+      e.preventDefault()
+
+      if (this.startTag) {
+        if (this.isMobile) {
+          this.setLastPoint(e.touches[0].clientX, e.touches[0].clientY)
+        } else {
+          this.setLastPoint(e.clientX, e.clientY)
+        }
+
+        const { matrix: rotateMatrix, angle } = this.cRotateMatrix()
+
+        this.rotate(rotateMatrix, angle)
+
+        // 回调事件
+        this.onListener['move'] && this.onListener['move'](this.angle)
+
+        if (this.isMobile) {
+          this.setFristPoint(e.touches[0].clientX, e.touches[0].clientY)
+        } else {
+          this.setFristPoint(e.clientX, e.clientY)
+        }
+      }
+    }, 20)
+  }
+
+  end() {
+    this.startTag = false
+    this.onListener['end'] && this.onListener['end'](this.angle)
   }
 
   // 用户绑定回调事件
   on(handlerName, fn) {
     this.onListener[handlerName] = fn
+  }
+
+  // 用户解除绑定回调事件
+  off(handlerName) {
+    this.onListener[handlerName] = null
+  }
+  // 销毁
+  destroy() {
+    this.startHandler.forEach((handlerName) => {
+      this.$element.removeEventListener(handlerName, this.handleStart)
+    })
+
+    this.moveHandler.forEach((handlerName) => {
+      this.$element.removeEventListener(
+        handlerName,
+        this.handleMove,
+        { passive: false }
+      )
+    })
+
+    this.endHandler.forEach((handlerName) => {
+      this.$element.removeEventListener(handlerName, this.handleEnd)
+    })
+
+    this.emptyData()
   }
 }
 
