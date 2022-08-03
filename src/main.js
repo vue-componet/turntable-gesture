@@ -215,7 +215,6 @@ export default class TurntableGesture {
 
   start(e) {
     this.startTag = true
-    console.log(this)
     const bound = this.$element.getBoundingClientRect()
     this.setCenterPoint(
       bound.left + bound.width / 2,
