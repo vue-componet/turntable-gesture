@@ -1,6 +1,6 @@
 {
   "name": "turntable-gesture",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "转盘旋转手势插件",
   "homepage": "https://github.com/vue-componet/turntable-gesture",
   "main": "dist/TurntableGesture.cjs.js",
