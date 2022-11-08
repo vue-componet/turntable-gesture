@@ -36,10 +36,6 @@ export default class TurntableGesture {
     this.startHandler = ['mousedown', 'touchstart']
     this.endHandler = ['mouseup', 'touchend']
 
-    this.handleStart = this.start.bind(this)
-    this.handleMove = this.move()
-    this.handleEnd = this.end.bind(this)
-
     this.isMobile = isMobile() // 是否是移动端
     this.getTransformMatrix() // 获取dom的默认transform属性矩阵信息
   }
@@ -195,22 +191,14 @@ export default class TurntableGesture {
 
   // 绑定事件
   addEventListener() {
-
+    this.handleStart = this.start.bind(this)
+    this.handleMove = this.move()
+    this.handleEnd = this.end.bind(this)
+    
     this.startHandler.forEach((handlerName) => {
       this.$element.addEventListener(handlerName, this.handleStart)
     })
 
-    this.moveHandler.forEach((handlerName) => {
-      this.$element.addEventListener(
-        handlerName,
-        this.handleMove,
-        { passive: false }
-      )
-    })
-
-    this.endHandler.forEach((handlerName) => {
-      this.$element.addEventListener(handlerName, this.handleEnd)
-    })
   }
 
   start(e) {
@@ -225,6 +213,20 @@ export default class TurntableGesture {
     } else {
       this.setFristPoint(e.clientX, e.clientY)
     }
+
+    // 绑定移动事件
+    this.moveHandler.forEach((handlerName) => {
+      this.$element.addEventListener(
+        handlerName,
+        this.handleMove,
+        { passive: false }
+      )
+    })
+
+    // 绑定鼠标放开事件
+    this.endHandler.forEach((handlerName) => {
+      this.$element.addEventListener(handlerName, this.handleEnd)
+    })
   }
 
   move() {
@@ -256,6 +258,16 @@ export default class TurntableGesture {
 
   end() {
     this.startTag = false
+    
+    // 取消绑定鼠标移动事件
+    this.moveHandler.forEach((handlerName) => {
+      this.$element.removeEventListener(
+        handlerName,
+        this.handleMove,
+        { passive: false }
+      )
+    })
+
     this.onListener['end'] && this.onListener['end'](this.angle)
   }
 
